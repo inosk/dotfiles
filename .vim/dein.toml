@@ -85,3 +85,7 @@ repo = "tpope/vim-fugitive"
 [[plugins]]
 repo = "kassio/neoterm"
 if = '''has('nvim')'''
+
+[[plugins]]
+repo = "cespare/vim-toml"
+on_f = "toml"
