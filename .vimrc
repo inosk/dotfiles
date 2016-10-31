@@ -12,7 +12,7 @@ endif
 if v:version >= 704
 " settings for dein {{{
   if has("nvim")
-    let g:python3_host_prog = expand("~/.pyenv/shims/python")
+    let g:python3_host_prog = expand("~/.pyenv/versions/3.5.0/bin/python")
     let s:config_root = expand("~/.config/nvim/")
   else
     let s:config_root = expand("~/.vim/")
