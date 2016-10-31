@@ -536,6 +536,9 @@ function! s:check_back_space() abort "{{{
 let col = col('.') - 1
 return !col || getline('.')[col - 1]  =~ '\s'
 endfunction "}}}
+
+let deoplete#tag#cache_limit_size = 5000000
+
 " }}}
 endif
 if !has('nvim')
