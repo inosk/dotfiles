@@ -16,9 +16,6 @@ on_ft = "ruby"
 repo = 'tpope/vim-surround'
 
 [[plugins]]
-repo = 'ervandew/supertab'
-
-[[plugins]]
 repo = 'ruby-matchit'
 
 [[plugins]]

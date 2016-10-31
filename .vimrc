@@ -12,6 +12,7 @@ endif
 if v:version >= 704
 " settings for dein {{{
   if has("nvim")
+    let g:python_host_prog = expand("~/.pyenv/versions/2.7.12/bin/python")
     let g:python3_host_prog = expand("~/.pyenv/versions/3.5.0/bin/python")
     let s:config_root = expand("~/.config/nvim/")
   else
@@ -424,9 +425,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
 " settings for vim-markdown {{{
 let g:vim_markdown_folding_disabled=1
 " }}}
-" settings for supertab {{{
-let g:SuperTabDefaultCompletionType = "<c-n>"
-" }}}
 " settings for cursorline {{{
 augroup vimrc-auto-cursorline
   autocmd!
@@ -483,7 +481,7 @@ if has('nvim')
 " settings for neomake {{{
 autocmd! BufWritePost,BufEnter * Neomake
 let g:neomake_javascript_enabled_makers = ["eslint"]
-"let g:neomake_slim_enabled_makers = ["slimlint"]
+let g:neomake_slim_enabled_makers = ["slimlint"]
 " }}}
 " settings for neoterm {{{
 function! neoterm#test#rspec#run(scope)
@@ -522,10 +520,28 @@ nnoremap <silent> ,tl :call neoterm#clear()<cr>
 nnoremap <silent> ,tc :call neoterm#kill()<cr>
 " }}}
 " settings for deoplete{{{
+" Use deoplete.
 let g:deoplete#enable_at_startup = 1
+" Use smartcase.
+let g:deoplete#enable_smart_case = 1
+
+let g:deoplete#disable_auto_complete = 1
+
+" Tabで保管
+inoremap <silent><expr> <TAB>
+\ pumvisible() ? "\<C-n>" :
+\ <SID>check_back_space() ? "\<TAB>" :
+\ deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+let col = col('.') - 1
+return !col || getline('.')[col - 1]  =~ '\s'
+endfunction "}}}
 " }}}
 endif
 if !has('nvim')
+" settings for supertab {{{
+"let g:SuperTabDefaultCompletionType = "<c-n>"
+" }}}
 " settings for neocomplcache {{{
 if v:version < 704
 " Disable AutoComplPop.
@@ -565,7 +581,7 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 "endif
 "let g:neocomplcache_force_omni_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
 endif
-"" }}}
+" }}}
 " {{{ settings for neocomplete
 if v:version >= 704
 " Disable AutoComplPop.
