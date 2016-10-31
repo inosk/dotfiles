@@ -424,6 +424,108 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=235
 " settings for vim-markdown {{{
 let g:vim_markdown_folding_disabled=1
 " }}}
+" settings for supertab {{{
+let g:SuperTabDefaultCompletionType = "<c-n>"
+" }}}
+" settings for cursorline {{{
+augroup vimrc-auto-cursorline
+  autocmd!
+  autocmd CursorMoved,CursorMovedI * call s:auto_cursorline('CursorMoved')
+  autocmd CursorHold,CursorHoldI * call s:auto_cursorline('CursorHold')
+  autocmd WinEnter * call s:auto_cursorline('WinEnter')
+  autocmd WinLeave * call s:auto_cursorline('WinLeave')
+
+  let s:cursorline_lock = 0
+  function! s:auto_cursorline(event)
+    if a:event ==# 'WinEnter'
+      setlocal cursorline
+      let s:cursorline_lock = 2
+    elseif a:event ==# 'WinLeave'
+      setlocal nocursorline
+    elseif a:event ==# 'CursorMoved'
+      if s:cursorline_lock
+        if 1 < s:cursorline_lock
+          let s:cursorline_lock = 1
+        else
+          setlocal nocursorline
+          let s:cursorline_lock = 0
+        endif
+      endif
+    elseif a:event ==# 'CursorHold'
+      setlocal cursorline
+      let s:cursorline_lock = 1
+    endif
+  endfunction
+augroup END
+" }}}
+" settings for auto-pairs {{{
+let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
+" }}}
+" settings for syntastic {{{
+if !has("nvim")
+  let g:syntastic_javascript_checkers=['eslint']
+  " エラー行にsignを表示
+  let g:syntastic_enable_signs=1
+  " location listを常に更新
+  let g:syntastic_always_populate_loc_list=0
+  " location listを常に表示
+  let g:syntastic_auto_loc_list=2
+  " ファイルを開いたときにチェックしない
+  let g:syntastic_check_on_open=0
+  " ファイルを閉じる時にチェックしない
+  let g:syntastic_check_on_wq=0
+  " debug
+  " let g:syntastic_debug=1
+  " let g:syntastic_debug_file="~/syntastic.log"
+endif
+" }}}
+if has('nvim')
+" settings for neomake {{{
+autocmd! BufWritePost,BufEnter * Neomake
+let g:neomake_javascript_enabled_makers = ["eslint"]
+"let g:neomake_slim_enabled_makers = ["slimlint"]
+" }}}
+" settings for neoterm {{{
+function! neoterm#test#rspec#run(scope)
+  let path = g:neoterm_use_relative_path ? expand('%') : expand('%:p')
+  let command = 'direnv allow; rspec'
+
+  if a:scope == 'file'
+    let command .= ' ' . path
+  elseif a:scope == 'current'
+    let command .= ' ' . path . ':' . line('.')
+  endif
+
+  return command
+endfunction
+
+aug neoterm_test_rspec
+  au VimEnter,BufRead,BufNewFile *_spec.rb,*_feature.rb call neoterm#test#libs#add('rspec')
+aug END
+
+let g:neoterm_position = 'horizontal'
+
+" ren set test lib
+nnoremap <silent> ,rn :call neoterm#test#run('all')<cr>
+nnoremap <silent> ,rn :call neoterm#test#run('file')<cr>
+nnoremap <silent> ,rn :call neoterm#test#run('current')<cr>
+nnoremap <silent> ,rr :call neoterm#test#rerun()<cr>
+
+" Useful maps
+" open terminal
+nnoremap <silent> ,tt :call neoterm#open()<cr>
+" hide/close terminal
+nnoremap <silent> ,th :call neoterm#close()<cr>
+" clear terminal
+nnoremap <silent> ,tl :call neoterm#clear()<cr>
+" kills the current job (send a <c-c>)
+nnoremap <silent> ,tc :call neoterm#kill()<cr>
+" }}}
+" settings for deoplete{{{
+let g:deoplete#enable_at_startup = 1
+" }}}
+endif
+if !has('nvim')
 " settings for neocomplcache {{{
 if v:version < 704
 " Disable AutoComplPop.
@@ -538,103 +640,4 @@ endif
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 endif
 " }}}
-" settings for supertab {{{
-let g:SuperTabDefaultCompletionType = "<c-n>"
-" }}}
-" settings for cursorline {{{
-augroup vimrc-auto-cursorline
-  autocmd!
-  autocmd CursorMoved,CursorMovedI * call s:auto_cursorline('CursorMoved')
-  autocmd CursorHold,CursorHoldI * call s:auto_cursorline('CursorHold')
-  autocmd WinEnter * call s:auto_cursorline('WinEnter')
-  autocmd WinLeave * call s:auto_cursorline('WinLeave')
-
-  let s:cursorline_lock = 0
-  function! s:auto_cursorline(event)
-    if a:event ==# 'WinEnter'
-      setlocal cursorline
-      let s:cursorline_lock = 2
-    elseif a:event ==# 'WinLeave'
-      setlocal nocursorline
-    elseif a:event ==# 'CursorMoved'
-      if s:cursorline_lock
-        if 1 < s:cursorline_lock
-          let s:cursorline_lock = 1
-        else
-          setlocal nocursorline
-          let s:cursorline_lock = 0
-        endif
-      endif
-    elseif a:event ==# 'CursorHold'
-      setlocal cursorline
-      let s:cursorline_lock = 1
-    endif
-  endfunction
-augroup END
-" }}}
-" settings for auto-pairs {{{
-let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
-" }}}
-" settings for syntastic {{{
-if !has("nvim")
-  let g:syntastic_javascript_checkers=['eslint']
-  " エラー行にsignを表示
-  let g:syntastic_enable_signs=1
-  " location listを常に更新
-  let g:syntastic_always_populate_loc_list=0
-  " location listを常に表示
-  let g:syntastic_auto_loc_list=2
-  " ファイルを開いたときにチェックしない
-  let g:syntastic_check_on_open=0
-  " ファイルを閉じる時にチェックしない
-  let g:syntastic_check_on_wq=0
-  " debug
-  " let g:syntastic_debug=1
-  " let g:syntastic_debug_file="~/syntastic.log"
 endif
-" }}}
-" settings for neomake {{{
-if has("nvim")
-  autocmd! BufWritePost,BufEnter * Neomake
-  let g:neomake_javascript_enabled_makers = ["eslint"]
-  "let g:neomake_slim_enabled_makers = ["slimlint"]
-endif
-" }}}
-" settings for neoterm {{{
-if has("nvim")
-  function! neoterm#test#rspec#run(scope)
-    let path = g:neoterm_use_relative_path ? expand('%') : expand('%:p')
-    let command = 'direnv allow; rspec'
-
-    if a:scope == 'file'
-      let command .= ' ' . path
-    elseif a:scope == 'current'
-      let command .= ' ' . path . ':' . line('.')
-    endif
-
-    return command
-  endfunction
-
-  aug neoterm_test_rspec
-    au VimEnter,BufRead,BufNewFile *_spec.rb,*_feature.rb call neoterm#test#libs#add('rspec')
-  aug END
-
-  let g:neoterm_position = 'horizontal'
-
-  " ren set test lib
-  nnoremap <silent> ,rn :call neoterm#test#run('all')<cr>
-  nnoremap <silent> ,rn :call neoterm#test#run('file')<cr>
-  nnoremap <silent> ,rn :call neoterm#test#run('current')<cr>
-  nnoremap <silent> ,rr :call neoterm#test#rerun()<cr>
-
-  " Useful maps
-  " open terminal
-  nnoremap <silent> ,tt :call neoterm#open()<cr>
-  " hide/close terminal
-  nnoremap <silent> ,th :call neoterm#close()<cr>
-  " clear terminal
-  nnoremap <silent> ,tl :call neoterm#clear()<cr>
-  " kills the current job (send a <c-c>)
-  nnoremap <silent> ,tc :call neoterm#kill()<cr>
-endif
-" }}}
