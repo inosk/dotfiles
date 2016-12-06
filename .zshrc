@@ -22,6 +22,9 @@ setopt NOBGNICE
 # zsh version info
 autoload -Uz is-at-least
 
+# zmv
+autoload -Uz zmv
+
 setopt extended_glob
 
 # history {{{
