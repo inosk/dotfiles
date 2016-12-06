@@ -481,7 +481,7 @@ if has('nvim')
 " settings for neomake {{{
 autocmd! BufWritePost,BufEnter * Neomake
 let g:neomake_javascript_enabled_makers = ["eslint"]
-let g:neomake_slim_enabled_makers = ["slimlint"]
+"let g:neomake_slim_enabled_makers = ["slimlint"]
 " }}}
 " settings for neoterm {{{
 function! neoterm#test#rspec#run(scope)
