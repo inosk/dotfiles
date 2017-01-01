@@ -180,37 +180,6 @@ let g:surround_{char2nr("%")} = "<% \r %>"
 let g:surround_{char2nr("=")} = "<%= \r %>"
 let g:surround_{char2nr("!")} = "<!-- \r -->"
 " }}}
-" settings for unite.vim {{{
-" unite.vim
-"let g:unite_enable_split_vertically=1
-"noremap <C-u> :Unite -buffer-name=files file buffer file_mru<CR>
-
-" バッファ一覧
-nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
-" ファイル一覧
-nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-" レジスタ一覧
-nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
-" 最近使用したファイル一覧
-nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
-" 常用セット
-nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
-" 全部乗せ
-nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-
-" unite-outline.vim
-noremap <C-u><C-o> :Unite outline<CR>
-
-" ウィンドウを分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-" ウィンドウを縦に分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-" ESCキーを2回押すと終了する
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
-" }}}
 " settings for binary (vim -b) {{{
 augroup BinaryXXD
   autocmd!
@@ -483,12 +452,12 @@ let g:deoplete#disable_auto_complete = 1
 
 " Tabで保管
 inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ deoplete#mappings#manual_complete()
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ deoplete#mappings#manual_complete()
 function! s:check_back_space() abort "{{{
-let col = col('.') - 1
-return !col || getline('.')[col - 1]  =~ '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
 endfunction "}}}
 
 let g:deoplete#omni_patterns = {}
@@ -497,10 +466,140 @@ let g:deoplete#omni_patterns.ruby = ['[^. *\t]\.\w*', '\h\w*::']
 let deoplete#tag#cache_limit_size = 5000000
 
 " }}}
+" {{{ settings for denite
+" Change file_rec command.
+call denite#custom#var('file_rec', 'command',
+\ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+" For ripgrep
+" Note: It is slower than ag
+call denite#custom#var('file_rec', 'command',
+\ ['rg', '--files', '--glob', '!.git'])
+
+" Change mappings.
+call denite#custom#map(
+      \ 'insert',
+      \ '<C-j>',
+      \ '<denite:move_to_next_line>',
+      \ 'noremap'
+      \)
+call denite#custom#map(
+      \ 'insert',
+      \ '<C-k>',
+      \ '<denite:move_to_previous_line>',
+      \ 'noremap'
+      \)
+
+" Change matchers.
+call denite#custom#source(
+\ 'file_mru', 'matchers', ['matcher_fuzzy', 'matcher_project_files'])
+call denite#custom#source(
+\ 'file_rec', 'matchers', ['matcher_cpsm'])
+
+" Change sorters.
+call denite#custom#source(
+\ 'file_rec', 'sorters', ['sorter_sublime'])
+
+" Add custom menus
+let s:menus = {}
+
+let s:menus.zsh = {
+	\ 'description': 'Edit your import zsh configuration'
+	\ }
+let s:menus.zsh.file_candidates = [
+	\ ['zshrc', '~/.zshrc'],
+	\ ['zshenv', '~/.zshenv'],
+	\ ]
+
+let s:menus.my_commands = {
+	\ 'description': 'Example commands'
+	\ }
+let s:menus.my_commands.command_candidates = [
+	\ ['Split the window', 'vnew'],
+	\ ['Open zsh menu', 'Denite menu:zsh'],
+	\ ]
+
+call denite#custom#var('menu', 'menus', s:menus)
+
+" Ack command on grep source
+call denite#custom#var('grep', 'command', ['ack'])
+call denite#custom#var('grep', 'default_opts',
+		\ ['--ackrc', $HOME.'/.ackrc', '-H',
+		\ '--nopager', '--nocolor', '--nogroup', '--column'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', ['--match'])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
+" Ripgrep command on grep source
+call denite#custom#var('grep', 'command', ['rg'])
+call denite#custom#var('grep', 'default_opts',
+		\ ['--vimgrep', '--no-heading'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
+
+call denite#custom#source('file_mru', 'converters',
+      \ ['converter_relative_word'])
+
+" Define alias
+call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#var('file_rec/git', 'command',
+      \ ['git', 'ls-files', '-co', '--exclude-standard'])
+
+" Change default prompt
+call denite#custom#option('default', 'prompt', '>')
+
+" Change ignore_globs
+call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+      \ [ '.git/', '.ropeproject/', '__pycache__/',
+      \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
+
+" バッファ一覧
+nnoremap <silent> ,ub :<C-u>Denite buffer<CR>
+" line
+nnoremap <silent> ,ul :<C-u>Denite line<CR>
+" 最近使用したファイル一覧
+"nnoremap <silent> ,um :<C-u>Denite file_mru<CR>
+" 常用セット
+"nnoremap <silent> ,uu :<C-u>Denite buffer file_mru<CR>
+" 全部乗せ
+"nnoremap <silent> ,ua :<C-u>DeniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+" }}}
 endif
 if !has('nvim')
 " settings for supertab {{{
 "let g:SuperTabDefaultCompletionType = "<c-n>"
+" }}}
+" settings for unite.vim {{{
+" unite.vim
+"let g:unite_enable_split_vertically=1
+"noremap <C-u> :Unite -buffer-name=files file buffer file_mru<CR>
+
+" バッファ一覧
+nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+" ファイル一覧
+nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" レジスタ一覧
+nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+" 最近使用したファイル一覧
+nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
+" 常用セット
+nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
+" 全部乗せ
+nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+
+" unite-outline.vim
+noremap <C-u><C-o> :Unite outline<CR>
+
+" ウィンドウを分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+" ウィンドウを縦に分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+" ESCキーを2回押すと終了する
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 " }}}
 " settings for neocomplcache {{{
 " Disable AutoComplPop.

@@ -86,3 +86,6 @@ if = '''has('nvim')'''
 [[plugins]]
 repo = "cespare/vim-toml"
 on_f = "toml"
+
+[[plugins]]
+repo = 'Shougo/denite.nvim'
