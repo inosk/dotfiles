@@ -9,81 +9,34 @@ if &compatible
   set nocompatible
 endif
 
-if v:version >= 704
 " settings for dein {{{
-  if has("nvim")
-    let g:python_host_prog = expand("~/.pyenv/versions/2.7.12/bin/python")
-    let g:python3_host_prog = expand("~/.pyenv/versions/3.5.0/bin/python")
-    let s:config_root = expand("~/.config/nvim/")
-  else
-    let s:config_root = expand("~/.vim/")
-  endif
-
-  let s:dein_runtimepath = s:config_root . "dein/repos/github.com/Shougo/dein.vim"
-  execute 'set runtimepath^=' . fnamemodify(s:dein_runtimepath, ':p')
-
-  call dein#begin(s:config_root . "dein")
-
-  " Add or remove your plugins here:
-  call dein#load_toml(s:config_root . "dein.toml",      {"lazy": 0})
-  call dein#load_toml(s:config_root . "dein_lazy.toml", {"lazy": 1})
-
-  " You can specify revision/branch/tag.
-  call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
-  call dein#end()
-  filetype plugin indent on
-
-  " If you want to install not installed plugins on startup.
-  if dein#check_install()
-    call dein#install()
-  endif
-" }}}
+if has("nvim")
+  let g:python_host_prog = expand("~/.pyenv/versions/2.7.12/bin/python")
+  let g:python3_host_prog = expand("~/.pyenv/versions/3.5.0/bin/python")
+  let s:config_root = expand("~/.config/nvim/")
 else
-" settings for neobundle "{{{
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#begin(expand('~/.vim/bundle/'))
-
-  " plugins
-  NeoBundle 'Shougo/neobundle.vim'
-  NeoBundle 'Shougo/unite.vim'
-  NeoBundle 'Shougo/neomru.vim'
-  NeoBundle 'Shougo/neocomplcache.vim'
-  NeoBundle 'Shougo/unite-outline'
-  NeoBundle 'Align'
-  NeoBundle "vim-ruby/vim-ruby"
-  NeoBundle 'tpope/vim-rails'
-  NeoBundle 'tpope/vim-surround'
-  NeoBundle 'ervandew/supertab'
-  NeoBundle 'ruby-matchit'
-  NeoBundle 'slim-template/vim-slim'
-  NeoBundle 'plasticboy/vim-markdown'
-  NeoBundle 'itchyny/lightline.vim'
-  NeoBundle 'rodjek/vim-puppet'
-  NeoBundle 'kchmck/vim-coffee-script'
-  NeoBundle 'soramugi/auto-ctags.vim'
-  NeoBundle 'scrooloose/nerdtree'
-  NeoBundle 'AndrewRadev/switch.vim'
-  NeoBundle 'tomtom/tcomment_vim'
-  NeoBundle 'nathanaelkane/vim-indent-guides'
-  NeoBundle "tpope/vim-endwise"
-  NeoBundle "jiangmiao/auto-pairs"
-  NeoBundle "pangloss/vim-javascript"
-  NeoBundle "derekwyatt/vim-scala"
-  NeoBundle "mxw/vim-jsx"
-  NeoBundle "othree/yajs.vim"
-  NeoBundle "tpope/vim-fugitive"
-  NeoBundle "Shougo/vimproc", {
-  \ 'build' : {
-  \   'mac' : 'make -f make_mac.mak',
-  \   'unix' : 'make -f make_unix.mak',
-  \ },
-  \ }
-
-  call neobundle#end()
-  filetype plugin indent on
-  NeoBundleCheck
-" }}}
+  let s:config_root = expand("~/.vim/")
 endif
+
+let s:dein_runtimepath = s:config_root . "dein/repos/github.com/Shougo/dein.vim"
+execute 'set runtimepath^=' . fnamemodify(s:dein_runtimepath, ':p')
+
+call dein#begin(s:config_root . "dein")
+
+" Add or remove your plugins here:
+call dein#load_toml(s:config_root . "dein.toml",      {"lazy": 0})
+call dein#load_toml(s:config_root . "dein_lazy.toml", {"lazy": 1})
+
+" You can specify revision/branch/tag.
+call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+call dein#end()
+filetype plugin indent on
+
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
+" }}}
 " settings for base {{{
 " ----------------------------------------------
 "  基本設定
@@ -550,7 +503,6 @@ if !has('nvim')
 "let g:SuperTabDefaultCompletionType = "<c-n>"
 " }}}
 " settings for neocomplcache {{{
-if v:version < 704
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplcache.
@@ -587,10 +539,8 @@ inoremap <expr><C-e>  neocomplcache#cancel_popup()
 "  let g:neocomplcache_force_omni_patterns = {}
 "endif
 "let g:neocomplcache_force_omni_patterns.ruby = '[^.*\t]\.\w*\|\h\w*::'
-endif
 " }}}
 " {{{ settings for neocomplete
-if v:version >= 704
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
@@ -603,14 +553,14 @@ let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
 " Define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
+  \ 'default' : '',
+  \ 'vimshell' : $HOME.'/.vimshell_hist',
+  \ 'scheme' : $HOME.'/.gosh_completions'
+\ }
 
 " Define keyword.
 if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
+  let g:neocomplete#keyword_patterns = {}
 endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
@@ -661,6 +611,5 @@ endif
 " For perlomni.vim setting.
 " https://github.com/c9s/perlomni.vim
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-endif
 " }}}
 endif
