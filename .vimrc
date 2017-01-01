@@ -276,6 +276,7 @@ set tags+=.svn/tags
 let g:auto_ctags = 1
 let g:auto_ctags_directory_list = ['.git', '.svn']
 let g:auto_ctags_tags_name = 'tags'
+let g:auto_ctags_tags_args = '--exclude=.git --exclude=log/*'
 " }}}
 " settings for lightline {{{
 let g:lightline = {
