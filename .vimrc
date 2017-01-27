@@ -470,10 +470,6 @@ let deoplete#tag#cache_limit_size = 5000000
 " Change file_rec command.
 call denite#custom#var('file_rec', 'command',
 \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-" For ripgrep
-" Note: It is slower than ag
-call denite#custom#var('file_rec', 'command',
-\ ['rg', '--files', '--glob', '!.git'])
 
 " Change mappings.
 call denite#custom#map(
@@ -520,23 +516,10 @@ let s:menus.my_commands.command_candidates = [
 
 call denite#custom#var('menu', 'menus', s:menus)
 
-" Ack command on grep source
-call denite#custom#var('grep', 'command', ['ack'])
-call denite#custom#var('grep', 'default_opts',
-		\ ['--ackrc', $HOME.'/.ackrc', '-H',
-		\ '--nopager', '--nocolor', '--nogroup', '--column'])
+" Denite grep
+call denite#custom#var('grep', 'command', ['ag'])
 call denite#custom#var('grep', 'recursive_opts', [])
-call denite#custom#var('grep', 'pattern_opt', ['--match'])
-call denite#custom#var('grep', 'separator', ['--'])
-call denite#custom#var('grep', 'final_opts', [])
-" Ripgrep command on grep source
-call denite#custom#var('grep', 'command', ['rg'])
-call denite#custom#var('grep', 'default_opts',
-		\ ['--vimgrep', '--no-heading'])
-call denite#custom#var('grep', 'recursive_opts', [])
-call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
-call denite#custom#var('grep', 'separator', ['--'])
-call denite#custom#var('grep', 'final_opts', [])
+call denite#custom#var('grep', 'default_opts', ['--follow', '--nogroup'])
 
 call denite#custom#source('file_mru', 'converters',
       \ ['converter_relative_word'])
@@ -558,6 +541,10 @@ call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
 nnoremap <silent> ,ub :<C-u>Denite buffer<CR>
 " line
 nnoremap <silent> ,ul :<C-u>Denite line<CR>
+" grep
+nnoremap <silent> ,ur :<C-u>Denite grep<CR>
+" file_rec
+nnoremap <silent> ,uc :<C-u>Denite file_rec<CR>
 " 最近使用したファイル一覧
 "nnoremap <silent> ,um :<C-u>Denite file_mru<CR>
 " 常用セット
