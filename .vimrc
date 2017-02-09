@@ -385,6 +385,7 @@ let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
 " settings for syntastic {{{
 if !has("nvim")
   let g:syntastic_javascript_checkers=['eslint']
+  let g:syntastic_rust_checkers=['cargo']
   " エラー行にsignを表示
   let g:syntastic_enable_signs=1
   " location listを常に更新
@@ -395,15 +396,21 @@ if !has("nvim")
   let g:syntastic_check_on_open=0
   " ファイルを閉じる時にチェックしない
   let g:syntastic_check_on_wq=0
-  " debug
-  " let g:syntastic_debug=1
-  " let g:syntastic_debug_file="~/syntastic.log"
 endif
+" }}}
+" settings for rustfmt {{{
+let g:rustfmt_autosave = 1
+let g:rustfmt_command = '$HOME/.cargo/bin/rustfmt'
+" }}}
+" settings for racer {{{
+let g:racer_cmd = '$HOME/.cargo/bin/racer'
+let $RUST_SRC_PATH = '$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src'
 " }}}
 if has('nvim')
 " settings for neomake {{{
 autocmd! BufWritePost,BufEnter * Neomake
 let g:neomake_javascript_enabled_makers = ["eslint"]
+let g:neomake_rust_enabled_makers = ["rustc"]
 "let g:neomake_slim_enabled_makers = ["slimlint"]
 " }}}
 " settings for neoterm {{{

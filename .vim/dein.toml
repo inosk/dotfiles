@@ -89,3 +89,11 @@ on_f = "toml"
 
 [[plugins]]
 repo = 'Shougo/denite.nvim'
+
+[[plugins]]
+repo = 'rust-lang/rust.vim'
+on_f = "rust"
+
+[[plugins]]
+repo = 'racer-rust/vim-racer'
+on_f = "rust"
