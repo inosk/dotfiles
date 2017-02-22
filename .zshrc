@@ -60,24 +60,26 @@ autoload -Uz compinit && compinit
 
 # prompt {{{
 setopt prompt_subst
-PROMPT="%(?.%{%}.%{${fg[red]}%})[%n@%m]%{${reset_color}%}%# "
-RPROMPT="[%~]"
-REPORTTIME=3
 
 # コマンド実行後にプロンプトを消す
 setopt transient_rprompt
 
 # vcs_info
-if is-at-least 4.3.10; then
-  autoload -Uz vcs_info
-  zstyle ':vcs_info:git:*' check-for-changes true
-  zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
-  zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-  zstyle ':vcs_info:*'     formats "%F{green}%c%u[%b]%f"
-  zstyle ':vcs_info:*'     actionformats '[%b|%a]'
-  precmd () { vcs_info }
-  RPROMPT='${vcs_info_msg_0_}'${RPROMPT}
-fi
+autoload -Uz vcs_info
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+zstyle ':vcs_info:*'     formats "[%F{green}%c%u%b%f]"
+zstyle ':vcs_info:*' actionformats '[%F{green}%b%f(%F{red}%a%f)]'
+#zstyle ':vcs_info:*'     actionformats '[%b|%a]'
+precmd () { vcs_info }
+
+PROMPT='
+%{${fg[yellow]}%}%~%{${reset_color}%}
+[%n@%md]${vcs_info_msg_0_}
+%(?.%B%F{green}.%B%F{blue})%(?!(๑˃̵ᴗ˂̵)ﻭ < !(;^ω^%) < )%f%b'
+
+RPROMPT='$MACKEREL_APIKEY_NAME'
 # }}}
 
 # 履歴の前方一致検索
