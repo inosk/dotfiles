@@ -1,6 +1,13 @@
 # PATH
 typeset -U path PATH
 export PATH=${HOME}/bin:${HOME}/.bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=$HOME/.anyenv/bin:$PATH
+
+# anyenv
+which anyenv > /dev/null 2>&1
+if [ $? = 0 ]; then
+  eval "$(anyenv init -)"
+fi
 
 # rbenv
 case ${OSTYPE} in
