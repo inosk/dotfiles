@@ -2,5 +2,6 @@
 !/.vim/bundle/neobundle.vim
 
 /.vim/.netrwhist
+/.vim/.init.vim-rplugin~
 /.vim/dein
 .gitconfig
