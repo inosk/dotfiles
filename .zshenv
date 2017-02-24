@@ -1,39 +1,14 @@
 # PATH
+case ${OSTYPE} in
+  darwin*)
+    setopt no_global_rcs
+    ;;
+  linux*)
+    ;;
+esac
+
 typeset -U path PATH
 export PATH=${HOME}/bin:${HOME}/.bin:/usr/local/bin:/usr/local/sbin:$PATH
-export PATH=$HOME/.anyenv/bin:$PATH
-
-# anyenv
-which anyenv > /dev/null 2>&1
-if [ $? = 0 ]; then
-  eval "$(anyenv init -)"
-fi
-
-# rbenv
-case ${OSTYPE} in
-  darwin*)
-    export RBENV_ROOT=${HOME}/.rbenv
-  ;;
-  linux*)
-    export RBENV_ROOT=/var/lib/rbenv
-  ;;
-esac
-export PATH="${RBENV_ROOT}/bin:$PATH"
-which rbenv > /dev/null 2>&1
-if [ $? = 0 ]; then
-  eval "$(rbenv init -)"
-fi
-
-# go
-case ${OSTYPE} in
-  darwin*)
-    export GOPATH=${HOME}/.go
-  ;;
-  linux*)
-    export GOPATH=/var/lib/go
-  ;;
-esac
-export PATH="${GOPATH}/bin":$PATH
 
 # direnv
 which direnv > /dev/null 2>&1
@@ -41,30 +16,15 @@ if [ $? = 0 ]; then
   eval "$(direnv hook zsh)"
 fi
 
-# pyenv
-case ${OSTYPE} in
-  darwin*)
-    export PYENV_ROOT=${HOME}/.pyenv
-  ;;
-  linux*)
-    export PYENV_ROOT=/var/lib/pyenv
-  ;;
-esac
-
-which pyenv > /dev/null
-if [ $? = 0 ]; then
-  eval "$(pyenv init -)"
+# anyenv
+if [ -d $HOME/.anyenv ]; then
+  export PATH=$HOME/.anyenv/bin:$PATH
+  eval "$(anyenv init -)"
+  for D in `ls $HOME/.anyenv/envs`
+  do
+    export PATH=$HOME/.anyenv/envs/$D/shims:$PATH
+  done
 fi
-
-# pyenv-virtualenv
-which pyenv-virtual-init > /dev/null
-if [ $? = 0 ]; then
-  eval "$(pyenv virtualenv-init -)"
-fi
-
-# nodebew
-export NODEBREW_ROOT="${HOME}/.nodebrew"
-export PATH="${NODEBREW_ROOT}/current/bin:${PATH}"
 
 # rust
 if [ -e ~/.cargo/env ]; then
