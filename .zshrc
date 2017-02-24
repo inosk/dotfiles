@@ -119,7 +119,7 @@ setopt long_list_jobs
 
 export LANG=ja_JP.utf-8
 export TERM=xterm-256color
-export LESS='-c -i -X -R -F'
+export LESS='-i -X -R -F'
 
 # kill terminal lock
 stty stop undef
