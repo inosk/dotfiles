@@ -3,7 +3,7 @@
 	diff = auto
 	interactive = auto
 	status = auto
-	editor = /usr/local/bin/vim -c \"set fenc=utf-8\"
+	editor = /usr/local/bin/nvim -c \"set fenc=utf-8\"
 [color "diff"]
   old = 167
   new = 030
@@ -15,5 +15,13 @@
 	cp = cherry-pick
 	dc = diff --cached
 	co = checkout
+[core]
+	excludesfile = /Users/inoue_yusuke/.gitignore_global
+[pager]
+  log = diff-highlight | less
+  show = diff-highlight | less
+  diff = diff-highlight | less
 [push]
 	default = current
+[diff]
+  compactionHeuristic = true
