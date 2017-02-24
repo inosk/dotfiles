@@ -1,6 +1,8 @@
 # PATH
 typeset -U path PATH
 export PATH=${HOME}/bin:${HOME}/.bin:/usr/local/bin:/usr/local/sbin:$PATH
+# git diff-highlight
+export PATH=${PATH}:/usr/local/share/git-core/contrib/diff-highlight
 
 # rbenv
 case ${OSTYPE} in
