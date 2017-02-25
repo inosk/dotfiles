@@ -19,3 +19,7 @@ ln -Fis "$PWD/.vim" ~/.config/nvim
 
 # for git
 git config --global core.excludesfile ~/.gitignore_global
+
+# submodule
+git submodule init
+git submodule update
