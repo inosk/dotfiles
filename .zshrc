@@ -168,15 +168,8 @@ function chpwd() {
   fi
 }
 # }}}
-# antigen {{{
-if [ -e ~/.zsh/antigen.zsh ]; then
-  source ~/.zsh/antigen.zsh
-  antigen bundle mollifier/anyframe
-  antigen apply
-
-  bindkey "^r" anyframe-widget-put-history
-  bindkey "^k" anyframe-widget-kill
-fi
+# zpulg {{{
+source ~/.zsh/zplug.zsh
 # }}}
 # include {{{
 if [ -e ~/.zsh/git-completion.bash ]; then
@@ -194,4 +187,8 @@ fi
 if [ -e ~/.zshrc_local ]; then
   source ~/.zshrc_local
 fi
+# }}}
+# anyframe{{{
+bindkey "^r" anyframe-widget-put-history
+bindkey "^k" anyframe-widget-kill
 # }}}
