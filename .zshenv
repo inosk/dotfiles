@@ -26,6 +26,9 @@ if [ -d $HOME/.anyenv ]; then
   done
 fi
 
+# go
+export GOPATH=$HOME/.go
+
 # rust
 if [ -e ~/.cargo/env ]; then
   source ~/.cargo/env
