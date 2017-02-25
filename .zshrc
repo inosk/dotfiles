@@ -168,9 +168,6 @@ function chpwd() {
   fi
 }
 # }}}
-# zpulg {{{
-source ~/.zsh/zplug.zsh
-# }}}
 # include {{{
 if [ -e ~/.zsh/git-completion.bash ]; then
   source ~/.zsh/git-completion.bash
@@ -188,7 +185,6 @@ if [ -e ~/.zshrc_local ]; then
   source ~/.zshrc_local
 fi
 # }}}
-# anyframe{{{
-bindkey "^r" anyframe-widget-put-history
-bindkey "^k" anyframe-widget-kill
+# zpulg {{{
+source ~/.zsh/zplug.zsh
 # }}}
