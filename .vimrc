@@ -11,8 +11,8 @@ endif
 
 " settings for dein {{{
 if has("nvim")
-  let g:python_host_prog = expand("~/.pyenv/versions/2.7.12/bin/python")
-  let g:python3_host_prog = expand("~/.pyenv/versions/3.5.0/bin/python")
+  let g:python_host_prog = expand("~/.anyenv/envs/pyenv/versions/2.7.12/bin/python")
+  let g:python3_host_prog = expand("~/.anyenv/envs/pyenv/versions/3.5.0/bin/python")
   let s:config_root = expand("~/.config/nvim/")
 else
   let s:config_root = expand("~/.vim/")
@@ -414,23 +414,6 @@ let g:neomake_rust_enabled_makers = ["rustc"]
 "let g:neomake_slim_enabled_makers = ["slimlint"]
 " }}}
 " settings for neoterm {{{
-function! neoterm#test#rspec#run(scope)
-  let path = g:neoterm_use_relative_path ? expand('%') : expand('%:p')
-  let command = 'direnv allow; rspec'
-
-  if a:scope == 'file'
-    let command .= ' ' . path
-  elseif a:scope == 'current'
-    let command .= ' ' . path . ':' . line('.')
-  endif
-
-  return command
-endfunction
-
-aug neoterm_test_rspec
-  au VimEnter,BufRead,BufNewFile *_spec.rb,*_feature.rb call neoterm#test#libs#add('rspec')
-aug END
-
 let g:neoterm_position = 'horizontal'
 
 " ren set test lib
