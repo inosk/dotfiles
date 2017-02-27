@@ -9,6 +9,9 @@ esac
 typeset -U path PATH
 export PATH=${HOME}/bin:${HOME}/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 
+# diff-highlight
+export PATH=/usr/local/share/git-core/contrib/diff-highlight/:$PATH
+
 # direnv
 which direnv > /dev/null 2>&1
 if [ $? = 0 ]; then
