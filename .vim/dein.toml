@@ -88,7 +88,7 @@ repo = "cespare/vim-toml"
 on_f = "toml"
 
 [[plugins]]
-repo = 'Shougo/denite.nvim'
+repo = 'Shougo/unite.vim'
 
 [[plugins]]
 repo = 'rust-lang/rust.vim'
