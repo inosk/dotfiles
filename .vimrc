@@ -9,6 +9,9 @@ if &compatible
   set nocompatible
 endif
 
+" vimの起動が遅くなる問題
+let g:ruby_path = ""
+
 " settings for dein {{{
 if has("nvim")
   let g:python_host_prog = expand("~/.anyenv/envs/pyenv/versions/2.7.12/bin/python")
