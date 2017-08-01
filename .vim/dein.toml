@@ -97,3 +97,6 @@ on_f = "rust"
 [[plugins]]
 repo = 'racer-rust/vim-racer'
 on_f = "rust"
+
+[[plugins]]
+repo = 'w0rp/ale'

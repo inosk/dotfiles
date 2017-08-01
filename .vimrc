@@ -207,7 +207,7 @@ let g:auto_ctags_tags_args = '--exclude=.git --exclude=log/*'
 let g:lightline = {
         \ 'mode_map': {'c': 'NORMAL'},
         \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename', 'ale' ] ]
         \ },
         \ 'component_function': {
         \   'modified': 'MyModified',
@@ -217,8 +217,14 @@ let g:lightline = {
         \   'fileformat': 'MyFileformat',
         \   'filetype': 'MyFiletype',
         \   'fileencoding': 'MyFileencoding',
-        \   'mode': 'MyMode'
-        \ }
+        \   'mode': 'MyMode',
+        \ },
+        \ 'component_expand': {
+        \   'ale': 'ALEGetStatusLine',
+        \ },
+        \ 'component_type': {
+        \   'ale': 'error',
+        \ },
         \ }
 
 function! MyModified()
@@ -263,6 +269,11 @@ endfunction
 function! MyMode()
   return winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
+
+augroup LightLineonALE
+  autocmd!
+  autocmd User ALELint call lightline#update()
+augroup END
 " }}}
 " settings for switch.vim {{{
 let g:switch_custom_definitions =
@@ -385,22 +396,6 @@ augroup END
 " settings for auto-pairs {{{
 let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
 " }}}
-" settings for syntastic {{{
-if !has("nvim")
-  let g:syntastic_javascript_checkers=['eslint']
-  let g:syntastic_rust_checkers=['cargo']
-  " エラー行にsignを表示
-  let g:syntastic_enable_signs=1
-  " location listを常に更新
-  let g:syntastic_always_populate_loc_list=0
-  " location listを常に表示
-  let g:syntastic_auto_loc_list=2
-  " ファイルを開いたときにチェックしない
-  let g:syntastic_check_on_open=0
-  " ファイルを閉じる時にチェックしない
-  let g:syntastic_check_on_wq=0
-endif
-" }}}
 " settings for rustfmt {{{
 let g:rustfmt_autosave = 1
 let g:rustfmt_command = '$HOME/.cargo/bin/rustfmt'
@@ -440,13 +435,14 @@ au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vspli
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 " }}}
-if has('nvim')
-" settings for neomake {{{
-autocmd! BufWritePost,BufEnter * Neomake
-let g:neomake_javascript_enabled_makers = ["eslint"]
-let g:neomake_rust_enabled_makers = ["rustc"]
-"let g:neomake_slim_enabled_makers = ["slimlint"]
+" {{{ settings for ALE
+let g:ale_sign_error = '✖︎'
+let g:ale_sign_warning = '⚠︎'
+let g:ale_statusline_format = ['✖︎ %d', '⚠︎ %d', 'ok']
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_sign_column_always = 1
 " }}}
+if has('nvim')
 " settings for neoterm {{{
 let g:neoterm_position = 'horizontal'
 
