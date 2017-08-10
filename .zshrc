@@ -77,7 +77,7 @@ precmd () { vcs_info }
 PROMPT='
 %{${fg[yellow]}%}%~%{${reset_color}%}
 [%n@%md]${vcs_info_msg_0_}
-%(?.%B%F{green}.%B%F{blue})%(?!(๑˃̵ᴗ˂̵)ﻭ < !(;^ω^%) < )%f%b'
+%(?.%B%F{green}.%B%F{blue})%(?!(๑>ᴗ<) < !(;^ω^%) < )%f%b'
 
 RPROMPT='$MACKEREL_APIKEY_NAME'
 # }}}
