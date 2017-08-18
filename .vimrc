@@ -442,6 +442,11 @@ let g:ale_statusline_format = ['✖︎ %d', '⚠︎ %d', 'ok']
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_sign_column_always = 1
 " }}}
+" settings for neosnippet {{{
+imap <C-k> <Plug>(neosnippet_expand_or_jump)>
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+      \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" }}}
 if has('nvim')
 " settings for neoterm {{{
 let g:neoterm_position = 'horizontal'
