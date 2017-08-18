@@ -12,6 +12,9 @@ export PATH=${HOME}/bin:${HOME}/.bin:/usr/local/bin:/usr/local/sbin:$PATH
 # diff-highlight
 export PATH=/usr/local/share/git-core/contrib/diff-highlight/:$PATH
 
+# npm -g
+export PATH=${HOME}/node_modules/.bin:$PATH
+
 # direnv
 which direnv > /dev/null 2>&1
 if [ $? = 0 ]; then
@@ -29,7 +32,11 @@ if [ -d $HOME/.anyenv ]; then
 fi
 
 # go
-export GOPATH=$HOME/.go
+which go > /dev/null 2>&1
+if [ $? = 0 ]; then
+  export GOPATH=${HOME}/program/go
+  export PATH=${GOPATH}/bin:$PATH
+fi
 
 # rust
 if [ -e ~/.cargo/env ]; then
