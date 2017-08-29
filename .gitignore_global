@@ -1,3 +1,4 @@
 doc/tags
 .envrc
 .DS_store
+*.swp
