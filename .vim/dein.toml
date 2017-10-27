@@ -16,9 +16,6 @@ on_ft = "ruby"
 repo = 'tpope/vim-surround'
 
 [[plugins]]
-repo = 'ruby-matchit'
-
-[[plugins]]
 repo = 'slim-template/vim-slim'
 on_ft = "slim"
 
@@ -37,9 +34,6 @@ on_ft = "coffee"
 
 [[plugins]]
 repo = 'soramugi/auto-ctags.vim'
-
-# [[plugins]]
-# repo = 'scrooloose/nerdtree'
 
 [[plugins]]
 repo = 'AndrewRadev/switch.vim'
