@@ -129,6 +129,7 @@ case ${OSTYPE} in
   darwin*)
     alias ll='ls -lG'
     alias lla='ls -laG'
+    alias el='exa -gHl --git'
     ;;
   linux*)
     alias ll='ls -l --color=tty'
