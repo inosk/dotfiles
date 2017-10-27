@@ -569,3 +569,6 @@ endif
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " }}}
 endif
+" settings for macros {{{
+source $VIMRUNTIME/macros/matchit.vim
+" }}}
