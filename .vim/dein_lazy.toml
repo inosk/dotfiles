@@ -32,3 +32,10 @@ on_i = 1
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'
 on_i = 1
+
+[[plugins]]
+repo = 'tpope/vim-dispatch'
+
+[[plugins]]
+repo = 'thoughtbot/vim-rspec'
+on_ft = "ruby"

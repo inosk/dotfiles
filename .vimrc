@@ -572,3 +572,10 @@ endif
 " settings for macros {{{
 source $VIMRUNTIME/macros/matchit.vim
 " }}}
+" settings for vim-rspec {{{
+let g:rspec_command = "Dispatch bundle exec rspec {spec}"
+nmap <silent>,rc :call RunCurrentSpecFile()<CR>
+nmap <silent>,rn :call RunNearestSpec()<CR>
+"nmap <leader>l :call RunLastSpec()<CR>
+"nmap <leader>a :call RunAllSpecs()<CR>
+" }}}
