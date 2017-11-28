@@ -171,6 +171,10 @@ if [ -e ~/.zsh/ghq.zsh ]; then
   source ~/.zsh/ghq.zsh
 fi
 
+if [ -e ~/.zsh/git-completion.bash ]; then
+  source ~/.zsh/git-completion.bash
+fi
+
 if [ -e ~/.zsh/complete-mackerel-host-ip.zsh ]; then
   source ~/.zsh/complete-mackerel-host-ip.zsh
 fi
