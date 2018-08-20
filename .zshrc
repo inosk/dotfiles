@@ -183,6 +183,12 @@ if [ -e ~/.zsh/peco-git-branches.zsh ]; then
   source ~/.zsh/peco-git-branches.zsh
 fi
 
+# k8s
+which kubectl > /dev/null 2>&1
+if [ $? = 0 ]; then
+  source <(kubectl completion zsh)
+fi
+
 if [ -e ~/.zshrc_local ]; then
   source ~/.zshrc_local
 fi
