@@ -423,7 +423,7 @@ nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
 nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 
 " unite-outline.vim
-noremap <C-u><C-o> :Unite outline<CR>
+noremap <C-u><C-o> :Unite -vertical outline<CR>
 
 " ウィンドウを分割して開く
 au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
@@ -436,9 +436,9 @@ au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 " }}}
 " {{{ settings for ALE
-let g:ale_sign_error = '✖︎'
-let g:ale_sign_warning = '⚠︎'
-let g:ale_statusline_format = ['✖︎ %d', '⚠︎ %d', 'ok']
+let g:ale_sign_error = 'E'
+let g:ale_sign_warning = 'W'
+let g:ale_statusline_format = ['E %d', 'W %d', 'ok']
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_sign_column_always = 1
 " }}}
