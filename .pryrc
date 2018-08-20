@@ -10,5 +10,7 @@ Pry.config.editor = "vim"
 Pry.config.history.file = "~/.irb_history"
 
 # alias
-Pry.config.commands.alias_command "n", "next"
-Pry.config.commands.alias_command "c", "continue"
+if defined?(PryByebug)
+  Pry.config.commands.alias_command "n", "next"
+  Pry.config.commands.alias_command "c", "continue"
+end

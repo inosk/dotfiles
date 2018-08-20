@@ -7,6 +7,13 @@ rescue LoadError
   # do nothing
 end
 
+begin
+  require "irbtools"
+rescue LoadError
+  # do nothing
+end
+
+
 IRB.conf[:SAVE_HISTORY] = 100000
 IRB.conf[:AUTO_INDENT]  = true
 IRB.conf[:USE_READLINE] = true
