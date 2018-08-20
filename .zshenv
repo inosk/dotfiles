@@ -43,6 +43,12 @@ if [ -e ~/.cargo/env ]; then
   source ~/.cargo/env
 fi
 
+# k8s
+which kubectl > /dev/null 2>&1
+if [ $? = 0 ]; then
+  source <(kubectl completion zsh)
+fi
+
 # 各サーバの個別設定
 if [ -e ~/.zshenv_local ]; then
   source ~/.zshenv_local
