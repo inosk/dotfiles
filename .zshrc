@@ -27,6 +27,9 @@ autoload -Uz zmv
 
 setopt extended_glob
 
+# enable comment in console
+setopt interactivecomments
+
 # history {{{
 HISTFILE=~/.zsh_history
 HISTSIZE=500000
@@ -175,8 +178,12 @@ if [ -e ~/.zsh/git-completion.bash ]; then
   source ~/.zsh/git-completion.bash
 fi
 
-if [ -e ~/.zsh/complete-mackerel-host-ip.zsh ]; then
-  source ~/.zsh/complete-mackerel-host-ip.zsh
+#if [ -e ~/.zsh/complete-mackerel-host-ip.zsh ]; then
+#  source ~/.zsh/complete-mackerel-host-ip.zsh
+#fi
+
+if [ -e ~/.zsh/complete-ec2-host-ip.zsh ]; then
+  source ~/.zsh/complete-ec2-host-ip.zsh
 fi
 
 if [ -e ~/.zsh/peco-git-branches.zsh ]; then

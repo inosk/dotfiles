@@ -1,0 +1,26 @@
+#!/bin/sh
+
+cache_file=~/.cache/ec2-hosts-tsv/
+cache_minutes=1
+
+if [ -z "$AWS_PROFILE" ]; then
+  echo "[error] AWS_PROFILE is empty."
+  exit 1
+fi
+
+cache_file="$cache_file/$AWS_PROFILE"
+
+if [ ! -r $cache_file -o -n "$(find $cache_file -mmin +$cache_minutes 2>/dev/null)" ]; then
+    mkdir -p $(dirname $cache_file)
+
+    echo 'cache file is too old, updating...' >&2
+    #mkr hosts | jq -r '.[]|[.ipAddresses[]?,.name]|@tsv' | tee $cache_file
+    aws ec2 describe-instances --profile bcat-live |
+      jq -r '.Reservations[].Instances[]|[.PrivateIpAddress,.InstanceType,[.Tags|from_entries.Name]]|flatten|@tsv' |
+      tee $cache_file
+
+    chmod go-r $cache_file
+else
+    cat $cache_file
+fi
+
