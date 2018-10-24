@@ -27,4 +27,3 @@ git submodule update
 # anyenv
 git clone https://github.com/riywo/anyenv ~/.anyenv
 git clone https://github.com/znz/anyenv-update.git $(anyenv root)/plugins/anyenv-update
-git clone https://github.com/yyuu/pyenv-virtualenv ~/.anyenv/envs/pyenv/plugins/pyenv-virtualenv
