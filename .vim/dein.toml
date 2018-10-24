@@ -94,3 +94,7 @@ on_f = "rust"
 
 [[plugins]]
 repo = 'w0rp/ale'
+
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
+on_f = ["typescript", "typescript.tsx"]
