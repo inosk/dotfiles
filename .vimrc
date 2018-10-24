@@ -198,7 +198,7 @@ augroup END
 set tags+=$HOME/.tags
 set tags+=.git/tags
 set tags+=.svn/tags
-let g:auto_ctags = 1
+let g:auto_ctags = 0
 let g:auto_ctags_directory_list = ['.git', '.svn']
 let g:auto_ctags_tags_name = 'tags'
 let g:auto_ctags_tags_args = '--exclude=.git --exclude=log/*'

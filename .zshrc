@@ -147,7 +147,7 @@ fi
 
 alias grep='grep --color=auto'
 alias rmrf='rm -rf'
-alias ctags='ctags -f .tags'
+#alias ctags='ctags -f .tags'
 
 if which gtags > /dev/null 2>&1; then
   alias gtags="gtags --gtagslabel=pygments"
