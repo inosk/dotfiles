@@ -1,3 +1,3 @@
-source ~inoue_yusuke/.zshrc
+source $HOME/.zshrc
 
 export PATH="$HOME/.cargo/bin:$PATH"
