@@ -42,7 +42,7 @@ complete-ec2-host-ip () {
         modify-current-argument "$ip"
     fi
  
-    BUFFER+="; # $host"
+    BUFFER+=" # $host"
  
     zle reset-prompt
 }

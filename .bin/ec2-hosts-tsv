@@ -1,26 +1,30 @@
 #!/bin/sh
 
-cache_file=~/.cache/ec2-hosts-tsv/
+cache_dir=~/.cache/ec2-hosts-tsv
 cache_minutes=1
 
-if [ -z "$AWS_PROFILE" ]; then
-  echo "[error] AWS_PROFILE is empty."
+if [ -z "$AWS_PROFILE" -a -z "$AWS_PROFILES" ]; then
+  echo "[error] AWS_PROFILE or AWS_PROFILES is necessary."
   exit 1
 fi
 
-cache_file="$cache_file/$AWS_PROFILE"
+if [ -z "$AWS_PROFILES" ]; then
+  AWS_PROFILES=$AWS_PROFILE
+fi
 
-if [ ! -r $cache_file -o -n "$(find $cache_file -mmin +$cache_minutes 2>/dev/null)" ]; then
-    mkdir -p $(dirname $cache_file)
+eval "AWS_PROFILES_ARR=($(echo $AWS_PROFILES | sed -e "s/,/ /"))"
 
-    echo 'cache file is too old, updating...' >&2
-    #mkr hosts | jq -r '.[]|[.ipAddresses[]?,.name]|@tsv' | tee $cache_file
-    aws ec2 describe-instances --profile bcat-live |
+for aws_profile in ${AWS_PROFILES_ARR[@]}
+do
+  cache_file="$cache_dir/$aws_profile"
+
+  if [ ! -r $cache_file -o -n "$(find $cache_file -mmin +$cache_minutes 2>/dev/null)" ]; then
+      mkdir -p $(dirname $cache_dir)
+      aws ec2 describe-instances --profile $aws_profile |
       jq -r '.Reservations[].Instances[]|[.PrivateIpAddress,.InstanceType,[.Tags|from_entries.Name]]|flatten|@tsv' |
       tee $cache_file
-
-    chmod go-r $cache_file
-else
-    cat $cache_file
-fi
+  else
+      cat $cache_file
+  fi
+done
 
