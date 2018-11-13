@@ -10,7 +10,8 @@ complete-ec2-host-ip () {
     local reply
  
     #local filter='fzf --nth=2,3 --delimiter="\t"' # or 'peco'
-    local filter='peco'
+    #local filter='peco'
+    local filter='fzf'
  
     split-shell-arguments
     if [ $(($REPLY % 2)) -eq 0 ]; then
