@@ -105,6 +105,7 @@ setopt list_types
 
 # share command history data
 setopt share_history
+setopt inc_append_history
 
 # correct wrong command
 setopt correct
