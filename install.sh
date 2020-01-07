@@ -27,3 +27,6 @@ git submodule update
 # anyenv
 git clone https://github.com/riywo/anyenv ~/.anyenv
 git clone https://github.com/znz/anyenv-update.git $(anyenv root)/plugins/anyenv-update
+
+# tmux plugin manager
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
