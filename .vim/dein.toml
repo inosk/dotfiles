@@ -98,3 +98,7 @@ repo = 'w0rp/ale'
 [[plugins]]
 repo = 'leafgarland/typescript-vim'
 on_f = ["typescript", "typescript.tsx"]
+
+[[plugins]]
+repo = 'hashivim/vim-terraform'
+on_f = ['terraform']
