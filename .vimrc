@@ -219,9 +219,6 @@ let g:lightline = {
         \   'fileencoding': 'MyFileencoding',
         \   'mode': 'MyMode',
         \ },
-        \ 'component_expand': {
-        \   'ale': 'ALEGetStatusLine',
-        \ },
         \ 'component_type': {
         \   'ale': 'error',
         \ },
@@ -274,6 +271,20 @@ augroup LightLineonALE
   autocmd!
   autocmd User ALELint call lightline#update()
 augroup END
+" }}}
+" settings for lightline-ale {{{
+let g:lightline.component_expand = {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ }
+let g:lightline.component_type = {
+      \  'linter_checking': 'left',
+      \  'linter_warnings': 'warning',
+      \  'linter_errors': 'error',
+      \  'linter_ok': 'left',
+      \ }
 " }}}
 " settings for switch.vim {{{
 let g:switch_custom_definitions =
