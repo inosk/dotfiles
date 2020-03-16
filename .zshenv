@@ -7,7 +7,7 @@ case ${OSTYPE} in
 esac
 
 typeset -U path PATH
-export PATH=${HOME}/bin:${HOME}/.bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH=${HOME}/bin:${HOME}/.bin:/usr/local/bin:/usr/local/sbin:/usr/sbin:$PATH
 
 # diff-highlight
 export PATH=/usr/local/share/git-core/contrib/diff-highlight/:$PATH
