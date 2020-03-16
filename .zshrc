@@ -191,6 +191,10 @@ if [ -e ~/.zsh/peco-git-branches.zsh ]; then
   source ~/.zsh/peco-git-branches.zsh
 fi
 
+if [ -e ~/.zsh/fzf-file-find.zsh ]; then
+  source ~/.zsh/fzf-file-find.zsh
+fi
+
 # k8s
 which kubectl > /dev/null 2>&1
 if [ $? = 0 ]; then
