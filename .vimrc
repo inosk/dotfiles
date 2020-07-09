@@ -33,7 +33,6 @@ call dein#load_toml(s:config_root . "dein_lazy.toml", {"lazy": 1})
 " You can specify revision/branch/tag.
 call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 call dein#end()
-filetype plugin indent on
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()
@@ -61,6 +60,13 @@ set pastetoggle=<F10>           " pastemodeのtoggleをF10にわりあて
 set wildmenu wildmode=list:full " vimからファイルを開く時にリスト表示
 set colorcolumn=120
 syntax on                       " syntax ハイライトをon
+
+" indent
+filetype plugin indent on
+augroup fileTypeIndent
+  autocmd!
+  autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
+augroup END
 
 " 分割時は右か下に出す．
 set splitright
