@@ -6,5 +6,5 @@ function fzf-file-find() {
 }
 
 zle -N fzf-file-find
-bindkey '^e' fzf-file-find
+bindkey '^f' fzf-file-find
 
