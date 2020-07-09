@@ -9,7 +9,7 @@
 #
 
 autoload -U compinit
-compinit
+compinit -u
 
 #allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
@@ -58,8 +58,6 @@ colors
 DIRSTACKSIZE=100
 setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
-
-autoload -Uz compinit && compinit
 
 # prompt {{{
 setopt prompt_subst
