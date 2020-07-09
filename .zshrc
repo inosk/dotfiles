@@ -8,14 +8,12 @@
 # functions, options, key bindings, etc.
 #
 
-autoload -U compinit
-compinit -u
+# lang
+export LANG=ja_JP.utf-8
 
-#allow tab completion in the middle of a word
-setopt COMPLETE_IN_WORD
-
-## keep background processes at full speed
+# keep background processes at full speed
 setopt NOBGNICE
+
 ## restart running processes on exit
 #setopt HUP
 
@@ -25,40 +23,71 @@ autoload -Uz is-at-least
 # zmv
 autoload -Uz zmv
 
+## never ever beep ever
+setopt NO_BEEP
+
+autoload -U colors && colors
+export TERM=xterm-256color
+
+bindkey "^A" beginning-of-line
+bindkey "^E" end-of-line
+
+# correct wrong command
+setopt correct
+
+# slim list
+setopt list_packed
+
+# jobsの出力デフォルトをjobs -lにする
+setopt long_list_jobs
+
+# less のデフォルトオプション
+export LESS='-i -X -R -F'
+
+# kill terminal lock
+stty stop undef
+
+# completions {{{
+fpath=(~/.zsh/completions $fpath)
+autoload -Uz compinit && compinit
+
+zstyle ':completion:*' format '%B%d%b'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:default' menu select=2
+zstyle ':completion:*' keep-prefix
+zstyle ':completion:*:default' list-colors ''
+zstyle ':completion:*' verbose yes
+setopt list_types
+setopt magic_equal_subst
+setopt auto_menu
+setopt complete_in_word #allow tab completion in the middle of a word
 setopt extended_glob
+setopt interactivecomments # enable comment in console
 
-# enable comment in console
-setopt interactivecomments
-
+# 履歴の前方一致検索
+autoload history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^P" history-beginning-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
+# }}}
 # history {{{
 HISTFILE=~/.zsh_history
 HISTSIZE=500000
 SAVEHIST=500000
 DIRSTACKSIZE=100
-
-#setopt APPEND_HISTORY
-## for sharing history between zsh processes
-#setopt INC_APPEND_HISTORY
-#setopt SHARE_HISTORY
-# ignore duplication command history list
-setopt hist_ignore_dups
-setopt hist_ignore_all_dups
+setopt hist_ignore_all_dups # 重複があれば古いものを消す
 setopt hist_expire_dups_first
-setopt hist_reduce_blanks
+setopt hist_reduce_blanks # 余計な空白を詰める
 setopt extended_history
 setopt inc_append_history
+setopt share_history # ヒストリの共有
 # }}}
-
-## never ever beep ever
-setopt NO_BEEP
-
-autoload -U colors
-colors
-
-DIRSTACKSIZE=100
-setopt AUTO_PUSHD
-setopt PUSHD_IGNORE_DUPS
-
+# auto_pushd {{{
+DIRSTACKSIZE=100 # cdの履歴サイズ
+setopt auto_pushd # cdの履歴を残す
+setopt pushd_ignore_dups # 履歴の重複を無視
+# }}}
 # prompt {{{
 setopt prompt_subst
 
@@ -82,50 +111,6 @@ PROMPT='
 
 RPROMPT='$MACKEREL_APIKEY_NAME'
 # }}}
-
-# 履歴の前方一致検索
-autoload history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end
-
-bindkey "^A" beginning-of-line
-bindkey "^E" end-of-line
-
-zstyle ':completion:*' format '%B%d%b'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*:default' menu select=2
-zstyle ':completion:*' keep-prefix
-zstyle ':completion:*:default' list-colors ''
-zstyle ':completion:*' verbose yes
-setopt list_types
-
-# share command history data
-setopt share_history
-setopt inc_append_history
-
-# correct wrong command
-setopt correct
-
-# slim list
-setopt list_packed
-
-setopt auto_pushd
-setopt pushd_ignore_dups
-
-setopt long_list_jobs
-
-# show even if there is no newline
-#unsetopt promptcr
-
-export LANG=ja_JP.utf-8
-export TERM=xterm-256color
-export LESS='-i -X -R -F'
-
-# kill terminal lock
-stty stop undef
-
 # alias {{{
 case ${OSTYPE} in
   darwin*)
@@ -177,10 +162,6 @@ if [ -e ~/.zsh/git-completion.bash ]; then
   source ~/.zsh/git-completion.bash
 fi
 
-#if [ -e ~/.zsh/complete-mackerel-host-ip.zsh ]; then
-#  source ~/.zsh/complete-mackerel-host-ip.zsh
-#fi
-
 if [ -e ~/.zsh/complete-ec2-host-ip.zsh ]; then
   source ~/.zsh/complete-ec2-host-ip.zsh
 fi
@@ -193,16 +174,45 @@ if [ -e ~/.zsh/fzf-file-find.zsh ]; then
   source ~/.zsh/fzf-file-find.zsh
 fi
 
-# k8s
-which kubectl > /dev/null 2>&1
-if [ $? = 0 ]; then
-  source <(kubectl completion zsh)
-fi
-
 if [ -e ~/.zshrc_local ]; then
   source ~/.zshrc_local
 fi
 # }}}
-# zpulg {{{
-source ~/.zsh/zplug.zsh
+### Added by Zinit's installer {{{
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-rust \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-bin-gem-node
+
+### End of Zinit's installer chunk }}}
+# plugins {{{
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light mollifier/anyframe
+# }}}
+# anyframe{{{
+bindkey "^r" anyframe-widget-put-history
+bindkey "^k" anyframe-widget-kill
+# }}}
+# zsh-comletions {{{
+fpath=($HOME/.zinit/plugins/zsh-users---zsh-completions/src $fpath)
+autoload -Uz compinit && compinit
+# }}}
+# zsh-syntax-highlighting {{{
+source $HOME/.zinit/plugins/zsh-users---zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # }}}
