@@ -103,3 +103,11 @@ on_f = ['terraform']
 [[plugins]]
 repo = 'maximbaz/lightline-ale'
 depends = ['lightline.vim', 'ale']
+
+[[plugins]]
+repo = 'tfnico/vim-gradle'
+on_ft = ['gradle', 'groovy']
+
+[[plugins]]
+repo = 'vim-scripts/groovy.vim'
+on_ft = 'groovy'
