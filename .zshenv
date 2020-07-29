@@ -15,6 +15,9 @@ export PATH=/usr/local/share/git-core/contrib/diff-highlight/:$PATH
 # npm -g
 export PATH=${HOME}/node_modules/.bin:$PATH
 
+# krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
 # direnv
 which direnv > /dev/null 2>&1
 if [ $? = 0 ]; then
