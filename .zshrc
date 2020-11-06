@@ -8,6 +8,35 @@
 # functions, options, key bindings, etc.
 #
 
+### Added by Zinit's installer {{{
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zinit-zsh/z-a-rust \
+    zinit-zsh/z-a-as-monitor \
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-bin-gem-node
+
+### End of Zinit's installer chunk }}}
+# plugins {{{
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light mollifier/anyframe
+zinit light jonmosco/kube-ps1
+# }}}
+
 # lang
 export LANG=ja_JP.utf-8
 
@@ -106,7 +135,7 @@ precmd () { vcs_info }
 
 PROMPT='
 %{${fg[yellow]}%}%~%{${reset_color}%}
-[%n@%md]${vcs_info_msg_0_}
+[%n@%md]${vcs_info_msg_0_}$(kube_ps1)
 %(?.%B%F{green}.%B%F{blue})%(?!(๑>ᴗ<) < !(;^ω^%) < )%f%b'
 
 RPROMPT='$MACKEREL_APIKEY_NAME'
@@ -177,33 +206,6 @@ fi
 if [ -e ~/.zshrc_local ]; then
   source ~/.zshrc_local
 fi
-# }}}
-### Added by Zinit's installer {{{
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
-
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zinit-zsh/z-a-rust \
-    zinit-zsh/z-a-as-monitor \
-    zinit-zsh/z-a-patch-dl \
-    zinit-zsh/z-a-bin-gem-node
-
-### End of Zinit's installer chunk }}}
-# plugins {{{
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light mollifier/anyframe
 # }}}
 # anyframe{{{
 bindkey "^r" anyframe-widget-put-history
