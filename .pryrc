@@ -1,7 +1,11 @@
 require "irb/completion"
 
 Pry.config.editor = "vim"
-Pry.config.history.file = "~/.irb_history"
+if Pry.config.history.respond_to?(:file)
+  Pry.config.history.file = "~/.irb_history"
+else
+  Pry.config.history_file = "~/.irb_history"
+end
 
 # alias
 if defined?(PryByebug)
