@@ -24,15 +24,9 @@ if [ $? = 0 ]; then
   eval "$(direnv hook zsh)"
 fi
 
-# anyenv
-if [ -d $HOME/.anyenv ]; then
-  export PATH=$HOME/.anyenv/bin:$PATH
-  eval "$(anyenv init - zsh)"
-  for D in `ls $HOME/.anyenv/envs`
-  do
-    export PATH=$HOME/.anyenv/envs/$D/shims:$PATH
-  done
-fi
+# adfs
+. $(brew --prefix asdf)/asdf.sh
+. ${HOME}/.asdf/plugins/java/set-java-home.zsh
 
 # go
 which go > /dev/null 2>&1
