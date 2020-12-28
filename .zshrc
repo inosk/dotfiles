@@ -118,27 +118,33 @@ setopt auto_pushd # cdの履歴を残す
 setopt pushd_ignore_dups # 履歴の重複を無視
 # }}}
 # prompt {{{
-setopt prompt_subst
-
-# コマンド実行後にプロンプトを消す
-setopt transient_rprompt
+setopt prompt_subst # コマンドの実行結果とかをpromptに使いたい時に指定
 
 # vcs_info
 autoload -Uz vcs_info
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
 zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-zstyle ':vcs_info:*'     formats "[%F{green}%c%u%b%f]"
-zstyle ':vcs_info:*' actionformats '[%F{green}%b%f(%F{red}%a%f)]'
+zstyle ':vcs_info:*'     formats "%F{green}%c%u%b%f"
+zstyle ':vcs_info:*' actionformats '%F{green}%b%f(%F{red}%a%f)'
 #zstyle ':vcs_info:*'     actionformats '[%b|%a]'
 precmd () { vcs_info }
 
+# 配色
+PROMPT_BACKGROUD_COLOR=
+PATH_COLOR='yellow'
+SEPERATOR='❘'
+SEPERATOR_COLOR=244
+SEPERATOR_INFO="%F{$SEPERATOR_COLOR} ${SEPERATOR} %f"
+PATH_INFO="%F{$PATH_COLOR}%~%f"
+
+AWS_PROFILE_INFO=$([ -n $AWS_PROFILE ] && echo " $AWS_PROFILE" )
 PROMPT='
-%{${fg[yellow]}%}%~%{${reset_color}%}
-[%n@%md]${vcs_info_msg_0_}$(kube_ps1)
+%K{$PROMPT_BACKGROUD_COLOR}${PATH_INFO} ${vcs_info_msg_0_}%k
+$AWS_PROFILE_INFO $(kube_ps1)
 %(?.%B%F{green}.%B%F{blue})%(?!(๑>ᴗ<) < !(;^ω^%) < )%f%b'
 
-RPROMPT='$MACKEREL_APIKEY_NAME'
+RPROMPT='%D{%H:%M:%S}'
 # }}}
 # alias {{{
 case ${OSTYPE} in
