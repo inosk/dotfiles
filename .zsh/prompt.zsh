@@ -12,7 +12,26 @@ precmd () { vcs_info }
 
 # envs
 function tool-version-info() {
+  # homeディレクトリの場合は非表示
+  if [ $(pwd) = $HOME ] ; then
+    return
+  fi
+
   local versions=""
+
+  # asdfに合わせて .tool-versionsを優先
+  if [ -e .tool-versions ]; then
+    cat .tool-versions | while read version; do
+      if [ -z $versions ]; then
+        versions=$version
+      else
+        versions="$versions | $version"
+      fi
+    done
+    echo $versions
+    return
+  fi
+
   for n in $((ls -1 .*-version) 2>/dev/null); do
     local version=$(echo $(echo $n | sed "s/\.\(.*\)-version/\1/") $(cat $n));
     if [ -z $versions ]; then
