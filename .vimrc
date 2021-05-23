@@ -65,7 +65,7 @@ syntax on                       " syntax ハイライトをon
 filetype plugin indent on
 augroup fileTypeIndent
   autocmd!
-  autocmd BufNewFile,BufRead *.java,*.gradle setlocal tabstop=4 softtabstop=4 shiftwidth=4
+  autocmd BufNewFile,BufRead *.java,*.gradle,*.groovy setlocal tabstop=4 softtabstop=4 shiftwidth=4
 augroup END
 
 " 分割時は右か下に出す．
