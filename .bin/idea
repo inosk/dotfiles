@@ -1,3 +1,9 @@
 #!/bin/sh
 
-open -na "IntelliJ IDEA.app" --args "$@"
+if open -Ra "IntelliJ IDEA.app" 2> /dev/null; then
+  open -na "IntelliJ IDEA.app" --args "$@"
+elif open -Ra "IntelliJ IDEA CE.app" 2> /dev/null; then
+  open -na "IntelliJ IDEA CE.app" --args "$@"
+else
+  echo "IDEA or IDEA CE is not found."
+fi
